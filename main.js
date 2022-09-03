@@ -1,7 +1,7 @@
 //Variables globales 
-const ApiUrl = 'https://api-tienda-cxsuvdcb4-brandonblain.vercel.app/api/api'
-
-// const ApiUrl = 'http://127.0.0.1:8000/api'
+// const ApiUrl = 'https://api-tienda-cxsuvdcb4-brandonblain.vercel.app/api/api'
+const ApiUrl = 'http://127.0.0.1:8000/api'
+const tituloPage = document.getElementById('tituloProductos')
 const items = document.getElementById('items')
 const templateCards = document.getElementById('template-card').content
 const fragment = document.createDocumentFragment()
@@ -54,7 +54,7 @@ $('#listaProductos li').click(function(){
     let $this = $(this);
     let producto = $this.text();
     SelectProducto=producto;
-    console.log(SelectProducto);
+    document.getElementById('tituloProductos').textContent = SelectProducto;
     getByCategory(producto);
    })
 
@@ -71,6 +71,9 @@ const getByCategory = async(producto)=>{
 
 const categoryProductos = (data,producto) =>{
     switch (producto) {
+        case 'Todos':
+            tipoProducto = data.Todos
+            break;
         case 'Bebida Energetica':
             tipoProducto = data.bebidaEnergetica
             break;
@@ -120,10 +123,10 @@ const categoryProductos = (data,producto) =>{
 function changeFunc() {
     var selectBox = document.getElementById("selectOrder");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-    getByOrder(selectedValue);
-   }
+    getByOrderProduts(selectedValue);
+}
 
-const getByOrder = async(orden)=>{
+const getByOrderProduts = async(orden)=>{
     let ordenamiento = orden;
     let params= new URLSearchParams({
         producto:SelectProducto,
@@ -165,6 +168,56 @@ const orderProductos = (data) =>{
 
 
 //------------Consulta de busqueda de productos
-// const getSearchProducts = fetch(`${ApiUrl}/bebidas/buscar`).then(
-//     (response) => response.json()
-// ).then((products) => console.log(products));
+// $('#botonBusqueda').click(function(){
+//     let searchWord = document.getElementById('inputBusqueda').value
+//     if (searchWord!=='') {
+//         getSearchProducts(searchWord);
+//     }
+//    })
+
+   function listenButton() {
+    let searchWord = document.getElementById('inputBusqueda').value
+    if (searchWord!=='') {
+        getSearchProducts(searchWord);
+    }else{
+        getAllProduct();
+    }
+}  
+
+const getSearchProducts = async(word)=>{
+    let params= new URLSearchParams({
+        wordSearch:word,
+    });
+    try {
+        const respons = await fetch(`${ApiUrl}/bebidas/buscar`,{
+            method: 'post',
+            body: params,
+          });
+        const data = await respons.json();
+       console.log(data)
+       searchedProductos(data);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const searchedProductos = (data) =>{
+
+    var a=document.getElementById('items');
+        while(a.hasChildNodes())
+	    a.removeChild(a.firstChild);
+
+        data.forEach(productos => {
+        console.log(productos)
+        templateCards.querySelector('h5').textContent = productos.name;
+        templateCards.querySelector('p').textContent = '$'+productos.price;
+        if (productos.url_image!=""&&productos.url_image !== null ) {
+            templateCards.querySelector('img').setAttribute('src',productos.url_image);
+        }else{
+            templateCards.querySelector('img').setAttribute('src','img/filenot-found.png');
+        }
+        const clone = templateCards.cloneNode(true);
+        fragment.appendChild(clone);
+    });
+    items.appendChild(fragment);
+}
