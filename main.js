@@ -1,6 +1,6 @@
 //Variables globales 
-// const ApiUrl = 'https://api-tienda-hkbjk2kt8-brandonblain.vercel.app/api/api'
-const ApiUrl = 'http://127.0.0.1:8000/api'
+const ApiUrl = 'https://api-tienda-hkbjk2kt8-brandonblain.vercel.app/api/api'
+// const ApiUrl = 'http://127.0.0.1:8000/api'
 const items = document.getElementById('items')
 const templateCards = document.getElementById('template-card').content
 const fragment = document.createDocumentFragment()
