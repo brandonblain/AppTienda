@@ -1,13 +1,15 @@
-//Elemetos para direciionar
-const ApiUrl = 'https://api-tienda-hkbjk2kt8-brandonblain.vercel.app/api/api'
+//Variables globales 
+// const ApiUrl = 'https://api-tienda-hkbjk2kt8-brandonblain.vercel.app/api/api'
+const ApiUrl = 'http://127.0.0.1:8000/api'
 const items = document.getElementById('items')
 const templateCards = document.getElementById('template-card').content
 const fragment = document.createDocumentFragment()
 const pagina = document.getElementById('nomPag').value;
 let ProductosCargados = false;
-//Lista de peticiones a la API.....
+let SelectProducto='Todos';
+let tipoProducto;
 
-//Consulta de todos los productos.
+//--------------Consulta de todos los productos.
 
 document.addEventListener('DOMContentLoaded',()=>{
     if (ProductosCargados==false) {
@@ -15,7 +17,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     }else{
         console.log('Nose vuelven a cargar los productos')
     }
-
 })
 
 const getAllProduct = async()=>{
@@ -46,11 +47,13 @@ const cardsProductos = data =>{
     items.appendChild(fragment);
 }
 
-//Consulta de productos por Categoria
+//-----------Consulta de productos por Categoria
 
 $('#listaProductos li').click(function(){
     let $this = $(this);
     let producto = $this.text();
+    SelectProducto=producto;
+    console.log(SelectProducto);
     getByCategory(producto);
    })
 
@@ -66,7 +69,6 @@ const getByCategory = async(producto)=>{
 }
 
 const categoryProductos = (data,producto) =>{
-    let tipoProducto;
     switch (producto) {
         case 'Bebida Energetica':
             tipoProducto = data.bebidaEnergetica
@@ -113,18 +115,57 @@ const categoryProductos = (data,producto) =>{
 }
 
 
-//Consulta de busqueda de productos
-const getSearchProducts = fetch(`${ApiUrl}/bebidas/buscar`).then(
-    (response) => response.json()
-).then((products) => console.log(products));
-
-//Consulta de ordenamiento de productos
-// fetch(`${ApiUrl}/bebidas/Order`).then(
+//------------Consulta de busqueda de productos
+// const getSearchProducts = fetch(`${ApiUrl}/bebidas/buscar`).then(
 //     (response) => response.json()
 // ).then((products) => console.log(products));
 
-    function changeFunc() {
+
+//------------Consulta de ordenamiento de productos
+
+function changeFunc() {
     var selectBox = document.getElementById("selectOrder");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-    getByCategory('bebida');
+    getByOrder(selectedValue);
    }
+
+const getByOrder = async(orden)=>{
+    let ordenamiento = orden;
+    let params= new URLSearchParams({
+        producto:SelectProducto,
+        order:ordenamiento
+    });
+    try {
+        const respons = await fetch(`${ApiUrl}/bebidas/Order`,{
+            method: 'post',
+            body: params,
+          });
+        const data = await respons.json();
+       console.log(data)
+       orderProductos(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const orderProductos = (data) =>{
+
+    var a=document.getElementById('items');
+        while(a.hasChildNodes())
+	    a.removeChild(a.firstChild);
+
+        data.forEach(productos => {
+        console.log(productos)
+        templateCards.querySelector('h5').textContent = productos.name;
+        templateCards.querySelector('p').textContent = '$'+productos.price;
+        if (productos.url_image!=""&&productos.url_image !== null ) {
+            templateCards.querySelector('img').setAttribute('src',productos.url_image);
+        }else{
+            templateCards.querySelector('img').setAttribute('src','img/filenot-found.png');
+        }
+        const clone = templateCards.cloneNode(true);
+        fragment.appendChild(clone);
+    });
+    items.appendChild(fragment);
+}
+
