@@ -1,5 +1,5 @@
 //Variables globales 
-const ApiUrl = 'https://api-tienda-cxsuvdcb4-brandonblain.vercel.app/api/api'
+const ApiUrl = 'https://api-tienda-l7nar1kcp-brandonblain.vercel.app/api/api'
 // const ApiUrl = 'http://127.0.0.1:8000/api'
 const tituloPage = document.getElementById('tituloProductos')
 const items = document.getElementById('items')
