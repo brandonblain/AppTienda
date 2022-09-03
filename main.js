@@ -114,13 +114,6 @@ const categoryProductos = (data,producto) =>{
     items.appendChild(fragment);
 }
 
-
-//------------Consulta de busqueda de productos
-// const getSearchProducts = fetch(`${ApiUrl}/bebidas/buscar`).then(
-//     (response) => response.json()
-// ).then((products) => console.log(products));
-
-
 //------------Consulta de ordenamiento de productos
 
 function changeFunc() {
@@ -169,3 +162,8 @@ const orderProductos = (data) =>{
     items.appendChild(fragment);
 }
 
+
+//------------Consulta de busqueda de productos
+// const getSearchProducts = fetch(`${ApiUrl}/bebidas/buscar`).then(
+//     (response) => response.json()
+// ).then((products) => console.log(products));
