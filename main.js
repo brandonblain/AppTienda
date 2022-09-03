@@ -4,27 +4,26 @@ const items = document.getElementById('items')
 const templateCards = document.getElementById('template-card').content
 const fragment = document.createDocumentFragment()
 const pagina = document.getElementById('nomPag').value;
+let ProductosCargados = false;
 //Lista de peticiones a la API.....
 
 //Consulta de todos los productos.
 
 document.addEventListener('DOMContentLoaded',()=>{
-    switch (pagina) {
-        case 'index':
-            getAllProduct()
-            break;
-        case 'bebidasEnergeticas':
-            getByCategory('Bebida Energetica');
-            break;
-        default:
-            break;
+    if (ProductosCargados==false) {
+        getAllProduct()
+    }else{
+        console.log('Nose vuelven a cargar los productos')
     }
+
 })
 
 const getAllProduct = async()=>{
     try {
+        console.log(ProductosCargados)
         const respons = await fetch(`${ApiUrl}/Allbebidas`);
         const data = await respons.json();
+        ProductosCargados = true;
         cardsProductos(data)
         // console.log(data)
     } catch (error) {
@@ -34,7 +33,6 @@ const getAllProduct = async()=>{
 
 const cardsProductos = data =>{
     data.forEach(productos => {
-        // console.log(productos)
         templateCards.querySelector('h5').textContent = productos.name;
         templateCards.querySelector('p').textContent = '$'+productos.price;
         if (productos.url_image!=""&&productos.url_image !== null ) {
@@ -49,13 +47,19 @@ const cardsProductos = data =>{
 }
 
 //Consulta de productos por Categoria
+
+$('#listaProductos li').click(function(){
+    let $this = $(this);
+    let producto = $this.text();
+    getByCategory(producto);
+   })
+
 const getByCategory = async(producto)=>{
     try {
         const respons = await fetch(`${ApiUrl}/getByCategory`);
         const data = await respons.json();
         const product = producto;
         categoryProductos(data,product)
-        console.log(data)
     } catch (error) {
         console.log(error)
     }
@@ -88,6 +92,10 @@ const categoryProductos = (data,producto) =>{
         default:
             break;
     }
+
+    var a=document.getElementById('items');
+        while(a.hasChildNodes())
+	    a.removeChild(a.firstChild);
 
     tipoProducto.forEach(productos => {
         console.log(productos)
