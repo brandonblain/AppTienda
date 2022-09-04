@@ -1,5 +1,5 @@
 //Variables globales 
-const ApiUrl = 'https://api-tienda-l7nar1kcp-brandonblain.vercel.app/api/api'
+const ApiUrl = 'https://api-tienda-kmheyozz6-brandonblain.vercel.app/api/api'
 // const ApiUrl = 'http://127.0.0.1:8000/api'
 const tituloPage = document.getElementById('tituloProductos')
 const items = document.getElementById('items')
@@ -37,6 +37,11 @@ const cardsProductos = data =>{
     data.forEach(productos => {
         templateCards.querySelector('h5').textContent = productos.name;
         templateCards.querySelector('p').textContent = '$'+productos.price;
+        if (productos.discount>0) {
+            templateCards.querySelector('span').textContent = productos.discount+'% Descuento ';
+        }else{
+            templateCards.querySelector('span').textContent = '';
+        }
         if (productos.url_image!=""&&productos.url_image !== null ) {
             templateCards.querySelector('img').setAttribute('src',productos.url_image);
         }else{
@@ -57,6 +62,12 @@ $('#listaProductos li').click(function(){
     document.getElementById('tituloProductos').textContent = SelectProducto;
     getByCategory(producto);
    })
+function changeCategory() {
+    var selectBox = document.getElementById("selectCategory");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    document.getElementById('tituloProductos').textContent = selectedValue;
+    getByCategory(selectedValue);
+}
 
 const getByCategory = async(producto)=>{
     try {
@@ -107,6 +118,11 @@ const categoryProductos = (data,producto) =>{
         console.log(productos)
         templateCards.querySelector('h5').textContent = productos.name;
         templateCards.querySelector('p').textContent = '$'+productos.price;
+        if (productos.discount>0) {
+            templateCards.querySelector('span').textContent = productos.discount+'% Descuento';
+        }else{
+            templateCards.querySelector('span').textContent = '';
+        }
         if (productos.url_image!=""&&productos.url_image !== null ) {
             templateCards.querySelector('img').setAttribute('src',productos.url_image);
         }else{
@@ -155,6 +171,11 @@ const orderProductos = (data) =>{
         console.log(productos)
         templateCards.querySelector('h5').textContent = productos.name;
         templateCards.querySelector('p').textContent = '$'+productos.price;
+        if (productos.discount!==0) {
+            templateCards.querySelector('span').textContent = productos.discount+'% Descuento';
+        }else{
+            templateCards.querySelector('span').textContent = '';
+        }
         if (productos.url_image!=""&&productos.url_image !== null ) {
             templateCards.querySelector('img').setAttribute('src',productos.url_image);
         }else{
@@ -168,13 +189,6 @@ const orderProductos = (data) =>{
 
 
 //------------Consulta de busqueda de productos
-// $('#botonBusqueda').click(function(){
-//     let searchWord = document.getElementById('inputBusqueda').value
-//     if (searchWord!=='') {
-//         getSearchProducts(searchWord);
-//     }
-//    })
-
    function listenButton() {
     let searchWord = document.getElementById('inputBusqueda').value
     if (searchWord!=='') {
@@ -211,6 +225,11 @@ const searchedProductos = (data) =>{
         console.log(productos)
         templateCards.querySelector('h5').textContent = productos.name;
         templateCards.querySelector('p').textContent = '$'+productos.price;
+        if (productos.discount>0) {
+            templateCards.querySelector('span').textContent = productos.discount+'% Descuento';
+        }else{
+            templateCards.querySelector('span').textContent = '';
+        }
         if (productos.url_image!=""&&productos.url_image !== null ) {
             templateCards.querySelector('img').setAttribute('src',productos.url_image);
         }else{

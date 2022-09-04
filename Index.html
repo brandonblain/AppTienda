@@ -6,6 +6,7 @@
     <title>Tienda Fontend</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" integrity="sha384-xeJqLiuOvjUBq3iGOjvSQSIlwrpqjSHXpduPd6rQpuiM3f5/ijby8pCsnbu5S81n" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -13,7 +14,7 @@
 <body>
     <input name="nomPag" id="nomPag" type="hidden" value="index" />
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,7 +23,7 @@
                     <a class="navbar-brand" href="#">Bsale Test</a>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="Index.html">Tienda</a>
+                            <a class="nav-link active" aria-current="page">Tienda</a>
                         </li>  
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Categorias</a>
@@ -39,7 +40,8 @@
                         </li>
                     </ul>
                     <div class="d-flex">
-                        <input class="form-control me-2" type="text" placeholder="Buscar" id="inputBusqueda" onchange="listenButton();">
+                        <i class="bi bi-search"></i>
+                        <input class="form-control me-2" type="text" placeholder="Buscar Producto" id="inputBusqueda" onchange="listenButton();">
                     </div>
                 </div>
             </div>
@@ -47,16 +49,34 @@
       </header>
       
       <section class="container-fluid"> 
-        <div class="Busqueda">
-            <h3 class="mb-4 mt-4" id="tituloProductos">Productos</h3>
-            <select class="form-select form-select-md mb-3 mt-3 ml-3" id="selectOrder" onchange="changeFunc();">
-                <option disabled>Ordenado por:</option>
-                <option value="NAZ">Nombre A-Z</option>
-                <option value="NZA">Nombre Z-A</option>
-                <option value="PMY">Precio Mayor</option>
-                <option value="PM">Precio Menor</option>
-                <option value="DM">Mayor Descuento</option>
-            </select>
+        <div class="row">
+            <div class="">
+                <div class="row">
+                    <h3 class="col-1 mb-4 mt-4">Categoria: </h3> <h3 class="col-11 mb-4 mt-4" id="tituloProductos"> Todos</h3>
+                </div>
+                <div class="ordenyCategorias">
+                    <select class="form-select mb-3 mt-3 ml-3" id="selectOrder" onchange="changeFunc();">
+                        <option selected disabled>Ordenado por:</option>
+                        <option value="PM">Precio Menor</option>
+                        <option value="PMY">Precio Mayor</option>
+                        <option value="NAZ">Nombre A-Z</option>
+                        <option value="NZA">Nombre Z-A</option>
+                        <option value="DM">Mayor Descuento</option>
+                    </select>
+                    <select class="form-select mb-3 mt-3 ml-3" id="selectCategory" onchange="changeCategory();">
+                        <option selected disabled>Categorias:</option>
+                        <option value="Todos">Todos</option>
+                        <option value="Bebida Energetica">Bebida Energetica</option>
+                        <option value="Pisco">Pisco</option>
+                        <option value="Ron">Ron</option>
+                        <option value="Bebida">Bebida</option>
+                        <option value="Snack">Snack</option>
+                        <option value="Cerveza">Cerveza</option>
+                        <option value="Vodka">Vodka</option>
+                    </select>
+                </div>
+            </div>
+            
         </div>
         <div class="container-fluid mb-4">
             <div class="row" id="items"></div>
@@ -71,8 +91,12 @@
                         </div>
                         <div class="col-md-8">
                           <div class="card-body" id="cardbody">
+                              <div class="buy-icon">
+                                  <i class="bi bi-bag-heart-fill"></i>
+                              </div>
                             <h5 class="card-title">Title</h5>
                             <p class="card-text">Precio</p>
+                            <span class="card-descuento"></span>
                           </div>
                         </div>
                       </div>
@@ -81,11 +105,6 @@
         </template>
         
     </section>
-    <footer>
-        <div class="footer-tienda">
-            <h5>Bsale Test</h5>
-        </div>
-    </footer>
     <script src='main.js'></script>
 </body>
 </html>
