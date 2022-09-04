@@ -1,171 +1,60 @@
 
-# API Tienda en linea
+# Web Application Tienda en linea
 
-API tienda de Bsale es una api la cual te ayuda a obtener los datos de los productos que se encuentran en la base de datos de Bsale.
-Asi como tambien traer filtrado por categoria, hacer una busqueda de producto, asi como tambien ordenar los productos.
+Bsale Tienda en linea es una aplicación web de una tienda en linea para adiquirir productos de diferentes categorias.
+la que se pueden observar imágenes de los productos, leer sus especificaciones. 
+Este servicio le da al cliente rapidez en la compra, la posibilidad de hacerlo desde cualquier lugar y a cualquier hora del día. 
 
-Esta api se comunica con una base de datos externa la cual se conecta con el api para ser consumida por el cliente.
-La conexión se hace por medio del framework de lavarel el cual se comunica de la siguiente dirección:
-
-mdb-test.c6vunyturrl6.us-west-1.rds.amazonaws.com
-
-La cual es necesaria una serie de parametros para hacer uso de esta base de datos.
-Son los siguientes:
-
-Motor: MySQL
-
-● Host: mdb-test.c6vunyturrl6.us-west-1.rds.amazonaws.com  
-● Usuario: bsale_test  
-● Contraseña: bsale_test  
-● Nombre db: bsale_test
-
-El consumo de la API de Bsale Tienda puede ser consumida del siguiente link:  
-https://api-tienda-l7nar1kcp-brandonblain.vercel.app/api
-
-Ejemplo:  
-https://api-tienda-l7nar1kcp-brandonblain.vercel.app/api/api/AllBebidas
-
-Para hacer uso del endpoint de Get all Productos.  
-Retornar todos los productos.
-
-Para hacer uso del siguiente link es necesario hacer uso de los endpoint correspondientes, en los pasos siguientes:
-## API Referencias
-
-### Get all Productos
-
-Retorna todos los productos de la base de datos.
-
-```http
-  GET /api/AllBebidas
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-|  | | No requiere parametros |
-
-Ejemplo de respuesta:
-
-```http
-[  
-    {
-        "id": 53,  
-        "name": "Mani Sin Sal",  
-        "url_image": "https://dojiw2m9tvv09.cloudfront.net/11132/product/manisinsalmp6988.jpg",  
-        "price": 500,  
-        "discount": 0,  
-        "category": 5,  
-        "get_category": {  
-            "id": 5,  
-            "name": "snack"  
-        }  
-    }  
-]
-```
-
-### Get by Category
-
-Retorna los productos por categoria de producto.
-
-```http
-  GET /api/getByCategory
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-|      | | No requiere parametros |
-
-Ejemplo de respuesta:
-
-```http
-  {
-    "Todos": [
-        {
-            "id": 53,
-            "name": "Mani Sin Sal",
-            "url_image": "https://dojiw2m9tvv09.cloudfront.net/11132/product/manisinsalmp6988.jpg",
-            "price": 500,
-            "discount": 0,
-            "category": 5,
-            "get_category": {
-                "id": 5,
-                "name": "snack"
-            }
-        }
-    ],
-    "bebidaEnergetica": [
-        {
-            "id": 35,
-            "name": "ENERGETICA MAKKA DRINKS",
-            "url_image": "https://dojiw2m9tvv09.cloudfront.net/11132/product/makka-drinks-250ml0455.jpg",
-            "price": 1190,
-            "discount": 0,
-            "category": 1
-        },
-    ]    
-  }      
-```
-
-### Get by Category
-
-Retorna los productos buscados por nombre o parte del nombre.
-
-```http
-  POST /api/bebidas/buscar
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-|  `wordSearch` | `string` | Producto a buscar |
-
-Ejemplo de respuesta:
-
-```http
-  [  
-    {
-        "id": 53,  
-        "name": "Mani Sin Sal",  
-        "url_image": "https://dojiw2m9tvv09.cloudfront.net/11132/product/manisinsalmp6988.jpg",  
-        "price": 500,  
-        "discount": 0,  
-        "category": 5,  
-    }  
-]
-```
-
-### Get by Category
-
-Retorna los productos acomodados por mayor o menor precio o por nombre Asc o Desc, o Descuento Mayor.
-
-```http
-  POST /api/bebidas/Order
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-|   `order` | `string` | Tipo de ordenamiento |
-|   `producto` | `string` | Categoria de producto a ordenar |
-
-Ejemplo de respuesta:
-
-```http
-[
-    {
-            "id": 35,
-            "name": "ENERGETICA MAKKA DRINKS",
-            "url_image": "https://dojiw2m9tvv09.cloudfront.net/11132/product/makka-drinks-250ml0455.jpg",
-            "price": 1190,
-            "discount": 0,
-            "category": 1
-    }
-]
-```
+![App Screenshot](https://drive.google.com/uc?export=view&id=19yurM8tBtmKx7l2_ps-BprmUG0E2j0pT&rl)
 
 
+## Funciones
+
+### Categorización
+Se muestran en la web productos agrupados por la categoría a la que pertenecen, con su descripción (Precio, Nombre, Imagen, Descuento).
+Esto se puede usar al hacer click en el botón de categorias ubicado en la parte superior o lateral de la aplicación. 
+
+![App Screenshot](https://drive.google.com/uc?export=view&id=12R6hY5xJD84WHlakcCyHiNcR7HiUk5Kh)
+
+### Busqueda
+El usuario puede hacer busquedas de algun producto en específico haciendo uso de la barra de busqueda de la aplicación, ubicada en la parte superior derecha de la pantalla.
+
+![App Screenshot](https://drive.google.com/uc?export=view&id=1YvY9w5Zk0QYf9JccjYjj5Hxgn2yUu6EQ)
 
 
+### Ordenamiento
+Si el usuario lo requiere se puede hacer un ordenamiento por:
+
+#### Nombre A-Z        
+Ordenamiento comenzando por la letra A hata la Z
+#### Nombre Z-A        
+Ordenamiento comenzando por la letra A hata la Z
+#### Precio Mayor      
+Ordenamiento por el mayor precio de los productos hasta el menor
+#### Precio Menor
+Ordenamiento por el menor precio de los productos hasta el mayor
+#### Mayor Descuento
+Ordenamiento de Mayor descuento del producto
+
+![App Screenshot](https://drive.google.com/uc?export=view&id=1q1lhnsKXiE6yexrGJTzGEzAOgxcqBGL0)
+
+
+#### *Estos ordenamientos se encuentran ubicados del lado izquierdo de la pantalla en una barra desplegable.
+
+La esta haciendo uso de una Api Rest alojada en un servidor en la web, con la dirección.
+https://api-tienda-l7nar1kcp-brandonblain.vercel.app/api cuyo lenguaje y framework es laravel
+. Los cuales del lado del cliente, los datos de productos deben llegan filtrados al cliente. Tambien se implementaron filtros por atributo, ordenar productos y categorización.
+
+La aplicación de cliente tiene que esta desarrollada con vanilla javascript
+(javascript puro), sin ningún framework, usando la librería
+, boopstrap y Jquery.
+
+Finalmente, la aplicación y el repositorio con el código en un hosting que es Netlity.
+Con la dirección de https://brandontiendaapp.netlify.app/index.html
 
 ## Authors
 
 - [@BrandonMartinez](https://github.com/brandonblain/ApiTienda)
+
 
 
